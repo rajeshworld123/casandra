@@ -1,11 +1,11 @@
-# Please note we are using Docker Compose version 3
 version: '2'
 services:
-    # Configuration for our seed cassandra node. The node is call N1DC1
-    # .i.e Node 1 in Data center 1.
     N1DC1:
+        labels:
+          io.rancher.container.pull_image: always
+          io.rancher.scheduler.affinity:host_label: Environment=newhost
+          io.rancher.container.network: true
         image: cassandra:3.10
-       # command: bash -c 'if [ -z "$$(ls -A /var/lib/cassandra/)" ] ; then sleep 0; fi && /docker-entrypoint.sh cassandra -f'
         networks:
             - dc1ring
         volumes:
