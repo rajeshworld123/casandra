@@ -1,5 +1,9 @@
 version: '2'
-services:
+services
+   labels:
+   io.rancher.container.pull_image: always
+   io.rancher.scheduler.affinity:host_label: Environment=newhost
+   io.rancher.container.network: true
    mysql:
      image: mysql:5.7
      volumes:
