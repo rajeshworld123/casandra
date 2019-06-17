@@ -1,9 +1,5 @@
 version: '2'
-services
-   labels:
-   io.rancher.container.pull_image: always
-   io.rancher.scheduler.affinity:host_label: Environment=newhost
-   io.rancher.container.network: true
+services:
    mysql:
      image: mysql:5.7
      volumes:
@@ -15,13 +11,16 @@ services
        MYSQL_USER: wordpress
        MYSQL_PASSWORD: wordpress
    wordpress:
+     labels:
+       io.rancher.scheduler.global: 'true'
+       io.rancher.scheduler.affinity:host_label: newhost
      depends_on:
        - mysql
      image: wordpress:latest
      ports:
        - "9000:9000"
      restart: always
-     environment: 
+     environment:
        WORDPRESS_DB_HOST: mysql:3306
        WORDPRESS_DB_USER: wordpress
        WORDPRESS_DB_PASSWORD: wordpress
@@ -31,4 +30,4 @@ services
      ports:
        - "8888:80"
 volumes:
-    db_data: {}
+   db_data: {}
